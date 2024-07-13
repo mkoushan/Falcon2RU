@@ -1,1 +1,7 @@
 build/
+
+### VisualStudioCode ###
+.vscode/*
+.history/
+.history
+.ionide
