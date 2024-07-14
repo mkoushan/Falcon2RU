@@ -10,7 +10,7 @@
 ## Build
 
 ```bash
-git clone https://github.com/mkoushan/Falcon2RU.git
+git clone https://git.sr.ht/~mkoushan/Falcon2RU
 cd Falcon2RU
 mkdir build/
 cmake -S . -B build/
@@ -27,4 +27,4 @@ TODO
 
 ## License
 
-[GNU General Public License v3.0](https://github.com/mkoushan/Falcon2RU/raw/main/LICENSE)
+[GNU General Public License v3.0](https://git.sr.ht/~mkoushan/Falcon2RU/tree/main/item/LICENSE)

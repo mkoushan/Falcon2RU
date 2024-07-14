@@ -1,3 +1,3 @@
 [submodule "test"]
 	path = test
-	url = git@github.com:mkoushan/Falcon2RU-test.git
+	url = git@git.sr.ht:~mkoushan/Falcon2RU-test
