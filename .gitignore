@@ -1,5 +1,8 @@
 build/
 
+### clangd
+.cache/
+
 ### VisualStudioCode ###
 .vscode/*
 .history/
