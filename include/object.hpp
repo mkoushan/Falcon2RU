@@ -2,13 +2,17 @@
 #define OBJECT_HPP_INCLUDE
 
 #include <utility>
+#include <vector>
 
 typedef std::pair<int,int> Point;
 
 class Object {
-  public:
-    virtual char show() const = 0;
-    virtual std::pair<int, int> targetCell(const std::pair<int, int>& entry) const = 0;
+protected:
+   std::vector<Object*> neighbors;
+public:
+   virtual char show() const = 0;
+   virtual const Object* targetCell(const Object* const entry = nullptr) const {return nullptr;}
+   const std::vector<Object*>& getNeighbors() const {return this->neighbors;}
 };
 
 #endif
