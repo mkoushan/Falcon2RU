@@ -7,6 +7,8 @@
 typedef std::pair<int,int> Point;
 
 class Object {
+private:
+   Point location;
 protected:
    std::vector<Object*> neighbors;
 public:
@@ -15,6 +17,8 @@ public:
    virtual const int getEnergyCost() const {return 1;}
    virtual const int getTimeCost() const {return 5;}
    const std::vector<Object*>& getNeighbors() const {return this->neighbors;}
+   void setLocation(const Point& location) {this->location = location;}
+   const Point getLocation() const {return this->location;}
 };
 
 #endif

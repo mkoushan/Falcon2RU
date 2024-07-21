@@ -8,7 +8,7 @@ class Space_Current : Object {
 private:
    const Object* target;
 public:
-   Space_Current(const std::vector<Object*>& neighbors, const Object*& target);
+   Space_Current(const std::vector<Object*>& neighbors, const Object*& target, const Point& location);
    char show() const override{return '1';}
    const Object* targetCell(const Object* const entry) const override {return this->target;}
    const int getEnergyCost() const override {return 2;}

@@ -8,7 +8,7 @@ class Pipe: Object {
 private:
    const Object* target;
 public:
-   Pipe(const Object*& target) : target(target) {}
+   Pipe(const Object*& target, const Point& location) : target(target) {this->Object::setLocation(location);}
    char show() const override{return '2';}
    const Object* targetCell(const Object* const entry) const override {return this->target;}
    const int getEnergyCost() const override {return 2;}
