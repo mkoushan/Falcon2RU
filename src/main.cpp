@@ -4,6 +4,7 @@
 #include "space_object.hpp"
 #include "pipe.hpp"
 #include "wormhole.hpp"
+#include "spaceship.hpp"
 
 int main() {
   std::cout << "Hello World!\n";

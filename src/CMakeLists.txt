@@ -2,6 +2,7 @@ set(PROJECT_SOURCES
     main.cpp
     dice.cpp
     space_current.cpp
+    space.cpp
 )
 
 add_executable(Falcon2RU
