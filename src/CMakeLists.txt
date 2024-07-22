@@ -4,6 +4,7 @@ set(PROJECT_SOURCES
     space_current.cpp
     space.cpp
     spaceship.cpp
+    control.cpp
 )
 
 add_executable(Falcon2RU

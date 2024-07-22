@@ -5,6 +5,7 @@
 #include "pipe.hpp"
 #include "wormhole.hpp"
 #include "spaceship.hpp"
+#include "control.hpp"
 
 int main() {
   std::cout << "Hello World!\n";
