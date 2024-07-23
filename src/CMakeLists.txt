@@ -1,10 +1,10 @@
 set(PROJECT_SOURCES
     main.cpp
     dice.cpp
-    space_current.cpp
     space.cpp
     spaceship.cpp
     control.cpp
+    space_object.cpp
 )
 
 add_executable(Falcon2RU
