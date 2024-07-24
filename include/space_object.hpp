@@ -14,8 +14,6 @@ class Space_Object : public Object {
     char show() const override {return '3';}
     void setTarget(const Point& entry, const Object*& target) { this->targets[entry] = target; }
     const Object* targetCell(const Object* const entry) const override {return this->targets.at(entry->getLocation());}
-    const int getEnergyCost() const override {return 4;}
-    const int getTimeCost() const override {return 3;}
 };
 
 #endif // SPACE_OBJECT_INCLUDED
