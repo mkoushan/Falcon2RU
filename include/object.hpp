@@ -10,10 +10,11 @@ class Object {
   protected:
     Point location;
     std::vector<Object*> neighbors;
-
+    const Object* target;
   public:
     Object(const Point& p) : location(p) {}
     virtual char show() const = 0;
+    virtual void setTarget(Object* target) { this->target = target; }
     virtual const Object* targetCell(const Object* const entry) const = 0;
     virtual const int getEnergyCost() const {return 1;}
     virtual const int getTimeCost() const {return 5;}

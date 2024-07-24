@@ -21,6 +21,10 @@ class Space {
     void buildSpaceCurrent(const Point& p);
     void buildSpaceObject(const Point& p);
     void buildCell(const Point& p, const bool is_home = false);
+    void buildPipe(const Point& p);
+    void connectCells();
+    void connectSpaceCurrent(Object* start);
+    void connectSpaceObject(Object* start);
 
   public:
     void buildMap(const std::vector<std::vector<char>>& raw_map);

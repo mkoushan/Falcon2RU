@@ -4,8 +4,9 @@
 
 void Control::run()
 {
-  unsigned int row, col;
+  unsigned int row, col, t;
   std::cin >> row >> col;
+  std::cin >> t >> t >> t;
   std::vector<std::vector<char>> raw_map(row, std::vector<char>(col, '0'));
   for (auto& i : raw_map) {
     for (auto& j : i) {

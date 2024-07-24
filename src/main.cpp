@@ -2,7 +2,7 @@
 
 #include "control.hpp"
 
-int main()
+int main(int argc, char *argv[])
 {
   Control app;
   app.run();
