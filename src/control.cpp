@@ -1,4 +1,5 @@
 #include "control.hpp"
+#include "dice.hpp"
 #include "space.hpp"
 #include "reached.hpp"
 
@@ -69,6 +70,47 @@ void Control::scenario_three()
     this->newShip();
 
     try {
+        while (this->ship->getEnergy() > 0) {
+            this->checkHome();
+            switch(this->ship->getCell()->show()) {
+                case '0':
+                    if (this->ship->getCell()->getEnergyCost() == 12) { // space object is close
+                        // TODO
+                    } else { // empty cell
+
+                    }
+                break;
+
+                case '1':
+                    // 0:ride, 1:move
+                   if (roll({{0, 0.75}, {1, 25}}) == 0) {
+                       this->ship->ride();
+                   } else {
+                       switch(roll({{0, 0.25}, {1, 0.25}, {2, 0.25}, {3, 0.25}})) {
+                            case 0: // move up
+                                this->ship->move(UP);
+                            break;
+
+                            case 1: // move right
+                                this->ship->move(RIGHT);
+                            break;
+
+                            case 2: // move down
+                                this->ship->move(DOWN);
+                            break;
+
+                            case 3: // move left
+                                this->ship->move(LEFT);
+                            break;
+                       }
+                   }
+                break;
+
+                case '4':
+                    if (roll()
+                break;
+            }
+        }
 
     } catch (std::domain_error const& ex) {
         this->ship->printLog();

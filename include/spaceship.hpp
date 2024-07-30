@@ -23,6 +23,7 @@ class Spaceship {
 
     const DIRECTION doSeeHome() const;
 
+    const Object* getCell() const { return this->location; }
     const unsigned int& getEnergy() const { return this->energy; }
     const unsigned int& getTime() const { return this->time; }
     const std::string getEnergyStr() const { return std::to_string(this->energy); }
