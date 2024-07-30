@@ -2,6 +2,7 @@
 #define CONTROL_HPP_INCLUDED
 
 #include "space.hpp"
+#include "spaceship.hpp"
 
 class Control {
     private:

@@ -3,12 +3,7 @@
 
 #include <vector>
 
-#include "pipe.hpp"
-#include "space_current.hpp"
-#include "space_object.hpp"
-#include "wormhole.hpp"
 #include "object.hpp"
-#include "cell.hpp"
 
 class Spaceship;
 

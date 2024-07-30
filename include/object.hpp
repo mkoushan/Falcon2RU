@@ -2,8 +2,8 @@
 #define OBJECT_HPP_INCLUDE
 
 #include <utility>
-#include <vector>
 #include <string>
+#include <map>
 
 enum DIRECTION {
   UP = 0,
@@ -21,15 +21,18 @@ typedef std::pair<unsigned int, unsigned int> Point;
 
 class Object {
   private:
+    char type;
     bool is_home;
-    std::vector<Object*> neighbors;
+    std::map<DIRECTION, Object*> neighbors;
     const Object* target = nullptr;
     unsigned int special_energy_cost;
     unsigned int special_time_cost;
     Point location;
 
   public:
-    Object (const Point& p, const bool is_home = false) : location(p), is_home(is_home) {}
+    Object (const Point& p, const char type = '0', const bool is_home = false) : location(p), type(type), is_home(is_home) {}
+    const char show() const { return this->type; }
+    const bool& isHome() const { return this->is_home; }
 
     const Object* targetCell() const { return this->target; }
     void setTarget(Object* target) { this->target = target; }
@@ -38,9 +41,10 @@ class Object {
 
     const unsigned int& getEnergyCost() const { return this->special_energy_cost; }
     const unsigned int& getTimeCost() const { return this->special_time_cost; }
+    const Object* getObject(const DIRECTION& dir) const { return this->neighbors.at(dir); }
 
-    void setNeighbors(const std::vector<Object*>& neighbors) { this->neighbors = neighbors; }
-    const std::vector<Object*>& getNeighbors() const { return this->neighbors; }
+    void setNeighbors(const std::map<DIRECTION, Object*>& neighbors) { this->neighbors = neighbors; }
+    const std::map<DIRECTION, Object*>& getNeighbors() const { return this->neighbors; }
 
     const Point& getLocation() const { return this->location; }
     const std::string getLocationStr() const { return "(" + std::to_string(this->location.first) + "," + std::to_string(this->location.second) + ")"; }

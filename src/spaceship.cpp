@@ -5,56 +5,94 @@
 
 void Spaceship::move(DIRECTION dir)
 {
-  const auto& neighbors = this->location->getNeighbors();
-  if (neighbors.at(dir) == nullptr) {
-    return;
+  // check if we can move to that direction
+  if (this->location->getObject(dir) == nullptr) {
+    throw std::invalid_argument(
+        "moving from "
+        + this->location->getLocationStr()
+        + " to direction "
+        + std::to_string(dir)
+        + " failed\n");
   }
-  const Object* target = neighbors.at(dir);
-  this->energy -= 1;
-  this->time += 5;
 
-  std::string log_text = this->getTimeStr() + " Moved from " + this->location->getStr() + "to " + target->getStr() + ", E:" + this->getEnergyStr();
+  // log
+  const auto& target = this->location->getObject(dir);
+  std::string log_text = this->getTimeStr() + " Moved from " + this->location->getLocationStr() + "to " + target->getLocationStr() + ", E:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
+  // finally moving towards the dir direction
   this->location = target;
+  this->energy -= 1;
+  this->time += 5;
 }
 
 void Spaceship::orbit()
 {
-  const Object* target = this->location->targetCell(this->location);
-  this->energy -= 4;
-  this->time += 3;
+  if (this->location->getEnergyCost() != 12) {
+      throw std::invalid_argument(
+          "orbitting from "
+          + this->location->getLocationStr()
+          + " failed because there's no space object near the ship\n");
+  }
 
-  std::string log_text = this->getTimeStr() + " Orbited from " + this->location->getStr() + " to " + target->getStr() + ", E:" + this->getEnergyStr();
+  // log
+  const Object* target = this->location->targetCell();
+  std::string log_text = this->getTimeStr() + " Orbited from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ", E:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
+  // orbiting through the space object
   this->location = target;
+  this->energy -= 12;
+  this->time += 9;
 }
 
 void Spaceship::teleport()
 {
-  const Object* target = this->location->targetCell(this->location);
-  this->energy /= 2;
+  if (this->location->show() != '4') {
+      throw std::invalid_argument(
+               "teleporting from "
+               + this->location->getLocationStr()
+               + " failed beacuse this cell is not a wormhole entry\n");
+  }
 
-  std::string log_text = this->getTimeStr() + " Teleported from " + this->location->getStr() + " to " + target->getStr() + ", E:" + this->getEnergyStr();
+ // log
+  const Object* target = this->location->targetCell();
+  std::string log_text = this->getTimeStr() + " Teleported from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ", E:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
+  // teleporting
   this->location = target;
+  this->energy /= 2;
 }
 
 void Spaceship::ride()
 {
-  do {
-    const Object* target = this->location->targetCell(this->location);
-    this->energy -= 2;
-    this->time += 1;
+  if (this->location->show() != '1') {
+      throw std::invalid_argument(
+                     "riding from "
+                     + this->location->getLocationStr()
+                     + " failed beacuse this cell is not a space current entry\n");
+  }
 
-    std::string log_text = this->getTimeStr() + " Rided from " + this->location->getStr() + " to " + target->getStr() + ", E:" + this->getEnergyStr();
-    this->logs.push_back(log_text);
+  // log
+  const Object* target = this->location->targetCell();
+  std::string log_text = this->getTimeStr() + " Rided from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ", E:" + this->getEnergyStr();
+  this->logs.push_back(log_text);
 
-    this->location = target;
+  // riding
+  this->location = target;
+  this->energy -= target->getEnergyCost();
+  this->time += target->getTimeCost();
+}
 
-  } while(this->location->show() != '1');
+const DIRECTION Spaceship::doSeeHome() const
+{
+  for (const auto& cell : this->location->getNeighbors()) {
+      if (cell.second->isHome()) {
+          return cell.first;
+      }
+  }
+  return UNKNOWN;
 }
 
 void Spaceship::printLog() const

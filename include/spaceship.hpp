@@ -19,6 +19,7 @@ class Spaceship {
     void teleport();
     void ride();
 
+    const DIRECTION doSeeHome() const;
     const std::string getEnergyStr() const { return std::to_string(this->energy); }
     const std::string getTimeStr() const { return std::to_string(this->time); }
     void printLog() const;

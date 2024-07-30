@@ -32,7 +32,9 @@ void Control::scenario_three()
 
 void Control::checkHome()
 {
-    // TODO
+    if (this->ship->doSeeHome() != UNKNOWN) {
+        this->seenHome();
+    }
 }
 
 void Control::seenHome()
