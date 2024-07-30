@@ -1,6 +1,7 @@
 #include "control.hpp"
 
 #include <iostream>
+#include <ostream>
 #include <stdexcept>
 
 void Control::run()
@@ -33,24 +34,33 @@ void Control::run()
 
 void Control::scenario_one()
 {
-    std::clog << "Scenario #1:\n";
+    std::clog << "\nScenario #1:\n";
     // TODO
 
-    this->ship->printLog();
 }
 
 void Control::scenario_two()
 {
-    std::clog << "Scenario #2:\n";
-    // TODO
-    this->ship->printLog();
+    std::clog << "\nScenario #2:\n";
+    try {
+        // TODO
+    } catch (std::domain_error const& ex) {
+        this->ship->printLog();
+        std::cerr << std::endl;
+        std::cerr << "energy limit reached and we couldn't find the home :(\n";
+    }
 }
 
 void Control::scenario_three()
 {
-    std::clog << "Scenario #3:\n";
-    // TODO
-    this->ship->printLog();
+    std::clog << "\nScenario #3:\n";
+    try {
+        // TODO
+    } catch (std::domain_error const& ex) {
+        this->ship->printLog();
+        std::cerr << std::endl;
+        std::cerr << "energy limit reached and we couldn't find the home :(\n";
+    }
 }
 
 void Control::checkHome()
@@ -96,4 +106,5 @@ void Control::seenHome()
         // this should never happen
         break;
     }
+    this->ship->printLog();
 }

@@ -20,6 +20,9 @@ class Spaceship {
     void ride();
 
     const DIRECTION doSeeHome() const;
+
+    const unsigned int& getEnergy() const { return this->energy; }
+    const unsigned int& getTime() const { return this->time; }
     const std::string getEnergyStr() const { return std::to_string(this->energy); }
     const std::string getTimeStr() const { return std::to_string(this->time); }
     void printLog() const;
