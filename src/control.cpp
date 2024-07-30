@@ -1,5 +1,6 @@
 #include "control.hpp"
 #include "space.hpp"
+#include "reached.hpp"
 
 #include <iostream>
 #include <ostream>
@@ -38,7 +39,11 @@ void Control::scenario_one()
 {
     std::clog << "\nScenario #1:\n";
     this->newShip();
-    // TODO
+    try {
+        // TODO
+    } catch (Reached& ex) {
+        std::cout << ex.what();
+    }
 
 }
 
@@ -53,6 +58,8 @@ void Control::scenario_two()
         this->ship->printLog();
         std::cerr << std::endl;
         std::cerr << "energy limit reached and we couldn't find the home :(\n";
+    } catch (Reached& ex) {
+        std::cout << ex.what();
     }
 }
 
@@ -67,6 +74,8 @@ void Control::scenario_three()
         this->ship->printLog();
         std::cerr << std::endl;
         std::cerr << "energy limit reached and we couldn't find the home :(\n";
+    } catch (Reached& ex) {
+        std::cout << ex.what();
     }
 }
 
@@ -114,6 +123,7 @@ void Control::seenHome()
         break;
     }
     this->ship->printLog();
+    throw Reached();
 }
 
 void Control::newShip()
