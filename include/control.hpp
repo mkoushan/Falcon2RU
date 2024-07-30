@@ -4,10 +4,20 @@
 #include "space.hpp"
 
 class Control {
-   private:
-      Space space;
-   public:
-      void run();
+    private:
+        Spaceship* ship;
+        unsigned int row, col, energy, x_ship, y_ship;
+        Space space;
+
+        void scenario_one();
+        void scenario_two();
+        void scenario_three();
+
+        void checkHome();
+        void seenHome();
+
+    public:
+        void run();
 };
 
 #endif // CONTROL_HPP_INCLUDED

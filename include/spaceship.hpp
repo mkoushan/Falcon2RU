@@ -4,18 +4,13 @@
 #include "object.hpp"
 #include "space.hpp"
 
-enum DIRECTION {
-  UP = 0,
-  RIGHT = 1,
-  DOWN = 2,
-  LEFT = 3
-};
-
 class Spaceship {
   private:
     const Object* location;
     unsigned int energy;
     unsigned int time {0};
+    unsigned int move_energy_cost;
+    unsigned int move_time_cost;
     std::vector<std::string> logs;
 
   public:

@@ -4,15 +4,13 @@
 
 void Control::run()
 {
-  unsigned int row, col, t;
-  std::cin >> row >> col;
-  std::cin >> t >> t >> t;
-  std::vector<std::vector<char>> raw_map(row, std::vector<char>(col, '0'));
-  for (auto& i : raw_map) {
-    for (auto& j : i) {
-      std::cin >> j;
+    std::cin >> this->row >> this->col;
+    std::cin >> this->x_ship >> this->y_ship >> this->energy;
+    std::vector<std::vector<char>> raw_map(this->row, std::vector<char>(this->col, '0'));
+    for (auto& i : raw_map) {
+        for (auto& j : i) {
+        std::cin >> j;
+        }
     }
-  }
-
-  this->space.buildMap(raw_map);
+    this->space.buildMap(raw_map);
 }
