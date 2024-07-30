@@ -1,4 +1,5 @@
 #include "control.hpp"
+#include "space.hpp"
 
 #include <iostream>
 #include <ostream>
@@ -16,6 +17,7 @@ void Control::run()
     }
 
     this->space.buildMap(raw_map);
+    this->start_cell = this->space.getCell({this->x_ship, this->y_ship});
 
     try {
         this->scenario_one();
@@ -35,6 +37,7 @@ void Control::run()
 void Control::scenario_one()
 {
     std::clog << "\nScenario #1:\n";
+    this->newShip();
     // TODO
 
 }
@@ -42,6 +45,8 @@ void Control::scenario_one()
 void Control::scenario_two()
 {
     std::clog << "\nScenario #2:\n";
+    this->newShip();
+
     try {
         // TODO
     } catch (std::domain_error const& ex) {
@@ -54,8 +59,10 @@ void Control::scenario_two()
 void Control::scenario_three()
 {
     std::clog << "\nScenario #3:\n";
+    this->newShip();
+
     try {
-        // TODO
+
     } catch (std::domain_error const& ex) {
         this->ship->printLog();
         std::cerr << std::endl;
@@ -107,4 +114,12 @@ void Control::seenHome()
         break;
     }
     this->ship->printLog();
+}
+
+void Control::newShip()
+{
+    if (this->ship != nullptr) {
+        delete this->ship;
+    }
+    this->ship = new Spaceship(start_cell);
 }

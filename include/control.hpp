@@ -7,8 +7,11 @@
 class Control {
     private:
         Spaceship* ship;
+        const Object* start_cell;
         unsigned int row, col, energy, x_ship, y_ship;
         Space space;
+
+        void newShip();
 
         void scenario_one();
         void scenario_two();

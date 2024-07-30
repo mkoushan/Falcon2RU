@@ -14,6 +14,8 @@ class Spaceship {
     std::vector<std::string> logs;
 
   public:
+    Spaceship(const Object*& loc) : location(loc) {}
+
     void move(DIRECTION dir);
     void orbit();
     void teleport();
