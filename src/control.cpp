@@ -1,6 +1,7 @@
 #include "control.hpp"
 
 #include <iostream>
+#include <stdexcept>
 
 void Control::run()
 {
@@ -12,7 +13,22 @@ void Control::run()
         std::cin >> j;
         }
     }
+
     this->space.buildMap(raw_map);
+
+    try {
+        this->scenario_one();
+        this->scenario_two();
+        this->scenario_three();
+    } catch (std::invalid_argument const& ex) {
+        this->ship->printLog();
+        std::cerr << std::endl;
+        std::cerr << ex.what();
+    } catch (...) {
+        this->ship->printLog();
+        std::cerr << std::endl;
+        std::cerr << "even I don't know what happened. good luck\n";
+    }
 }
 
 void Control::scenario_one()
