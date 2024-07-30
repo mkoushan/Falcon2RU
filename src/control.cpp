@@ -14,3 +14,28 @@ void Control::run()
     }
     this->space.buildMap(raw_map);
 }
+
+void Control::scenario_one()
+{
+    // TODO
+}
+
+void Control::scenario_two()
+{
+    // TODO
+}
+
+void Control::scenario_three()
+{
+    // TODO
+}
+
+void Control::checkHome()
+{
+    // TODO
+}
+
+void Control::seenHome()
+{
+    // TODO
+}

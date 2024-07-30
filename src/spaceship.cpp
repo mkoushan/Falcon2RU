@@ -7,7 +7,7 @@ void Spaceship::move(DIRECTION dir)
 {
   const auto& neighbors = this->location->getNeighbors();
   if (neighbors.at(dir) == nullptr) {
-    throw;
+    return;
   }
   const Object* target = neighbors.at(dir);
   this->energy -= 1;
