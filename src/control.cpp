@@ -33,16 +33,19 @@ void Control::run()
 
 void Control::scenario_one()
 {
+    std::clog << "Scenario #1:\n";
     // TODO
 }
 
 void Control::scenario_two()
 {
+    std::clog << "Scenario #2:\n";
     // TODO
 }
 
 void Control::scenario_three()
 {
+    std::clog << "Scenario #3:\n";
     // TODO
 }
 
