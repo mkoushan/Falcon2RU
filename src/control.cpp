@@ -35,18 +35,22 @@ void Control::scenario_one()
 {
     std::clog << "Scenario #1:\n";
     // TODO
+
+    this->ship->printLog();
 }
 
 void Control::scenario_two()
 {
     std::clog << "Scenario #2:\n";
     // TODO
+    this->ship->printLog();
 }
 
 void Control::scenario_three()
 {
     std::clog << "Scenario #3:\n";
     // TODO
+    this->ship->printLog();
 }
 
 void Control::checkHome()
@@ -58,5 +62,38 @@ void Control::checkHome()
 
 void Control::seenHome()
 {
-    // TODO
+    const auto& home_dir = this->ship->doSeeHome();
+
+    switch(home_dir) {
+        case UP:
+        case RIGHT:
+        case DOWN:
+        case LEFT:
+            this->ship->move(home_dir);
+        break;
+
+        case UP_RIGHT:
+            this->ship->move(UP);
+            this->ship->move(RIGHT);
+        break;
+
+        case UP_LEFT:
+            this->ship->move(UP);
+            this->ship->move(LEFT);
+        break;
+
+        case DOWN_RIGHT:
+            this->ship->move(DOWN);
+            this->ship->move(RIGHT);
+        break;
+
+        case DOWN_LEFT:
+            this->ship->move(DOWN);
+            this->ship->move(LEFT);
+        break;
+
+        case UNKNOWN:
+        // this should never happen
+        break;
+    }
 }
