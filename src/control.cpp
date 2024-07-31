@@ -40,7 +40,6 @@ void Control::suspirium()
     if (visited.count(this->ship->getCell()->getLocation()) == 1) {
         return;
     } visited.insert(this->ship->getCell()->getLocation());
-    std::clog << 1;
     this->checkHome();
     try {
         this->ship->move(RIGHT);
