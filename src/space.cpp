@@ -304,14 +304,6 @@ void Space::connectCells()
 
 void Space::connectSpaceCurrent(Object* start)
 {
-    std::clog << '\n';
-    for (const auto& i : this->map) {
-        for (const auto& j : i) {
-            std::clog << j->show();
-        }
-        std::clog << std::endl;
-    }
-    std::clog << '\n';
     unsigned int total_energy_cost = 2;
     unsigned int total_time_cost   = 1;
 
@@ -332,34 +324,40 @@ void Space::connectSpaceCurrent(Object* start)
         current.second++;
         flag = LEFT;
     }
-
     do {
         total_energy_cost += 2;
         total_time_cost   += 1;
 
         if (flag != UP && 1 <= current.first) {
             if (this->raw_map.at(current.first - 1).at(current.second) == '2'
-                && this->raw_map.at(current.first - 1).at(current.second) == '1') {
+                || this->raw_map.at(current.first - 1).at(current.second) == '1') {
                 current.first--;
                 flag = DOWN;
+                continue;
             }
-        } else if (flag != DOWN && current.first + 1 <= this->raw_map.size()) {
+        }
+        if (flag != DOWN && current.first + 1 <= this->raw_map.size()) {
             if (this->raw_map.at(current.first + 1).at(current.second) == '2'
-                && this->raw_map.at(current.first + 1).at(current.second) == '1') {
+                || this->raw_map.at(current.first + 1).at(current.second) == '1') {
                 current.first++;
                 flag = UP;
+                continue;
             }
-        } else if (flag != LEFT && 1 <= current.second) {
+        }
+        if (flag != LEFT && 1 <= current.second) {
             if (this->raw_map.at(current.first).at(current.second - 1) == '2'
-                && this->raw_map.at(current.first).at(current.second - 1) == '1') {
+                || this->raw_map.at(current.first).at(current.second - 1) == '1') {
                 current.second--;
                 flag = RIGHT;
+                continue;
             }
-        } else if (flag != RIGHT && current.second + 1 <= this->raw_map.at(0).size()) {
+        }
+        if (flag != RIGHT && current.second + 1 <= this->raw_map.at(0).size()) {
             if (this->raw_map.at(current.first).at(current.second + 1) == '2'
-                && this->raw_map.at(current.first).at(current.second + 1) == '1') {
+                || this->raw_map.at(current.first).at(current.second + 1) == '1') {
                 current.second++;
                 flag = LEFT;
+                continue;
             }
         }
     } while (this->raw_map.at(current.first).at(current.second) == '2');
@@ -368,7 +366,6 @@ void Space::connectSpaceCurrent(Object* start)
     end->setTarget(start);
     end->setEnergyCost(total_energy_cost);
     end->setTimeCost(total_time_cost);
-    std::clog << 1;
 }
 
 void Space::connectSpaceObject(Object* start)
