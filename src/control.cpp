@@ -1,11 +1,13 @@
 #include "control.hpp"
 #include "dice.hpp"
+#include "object.hpp"
 #include "space.hpp"
 #include "reached.hpp"
 
 #include <iostream>
 #include <ostream>
 #include <stdexcept>
+#include <set>
 
 void Control::run()
 {
@@ -29,19 +31,49 @@ void Control::run()
         this->ship->printLog();
         std::cerr << std::endl;
         std::cerr << ex.what();
-    } catch (...) {
-        this->ship->printLog();
-        std::cerr << std::endl;
-        std::cerr << "even I don't know what happened. good luck\n";
     }
+}
+
+void Control::suspirium()
+{
+    static std::set<Point> visited;
+    if (visited.count(this->ship->getCell()->getLocation()) == 1) {
+        return;
+    } visited.insert(this->ship->getCell()->getLocation());
+    std::clog << 1;
+    this->checkHome();
+    try {
+        this->ship->move(RIGHT);
+        this->suspirium();
+        this->ship->move(LEFT);
+    } catch (std::invalid_argument const& ex) {}
+
+    try {
+        this->ship->move(UP);
+        this->suspirium();
+        this->ship->move(DOWN);
+    } catch (std::invalid_argument const& ex) {}
+
+    try {
+        this->ship->move(LEFT);
+        this->suspirium();
+        this->ship->move(RIGHT);
+    } catch (std::invalid_argument const& ex) {}
+
+    try {
+        this->ship->move(DOWN);
+        this->suspirium();
+        this->ship->move(UP);
+    } catch (std::invalid_argument const& ex) {}
 }
 
 void Control::scenario_one()
 {
     std::clog << "\nScenario #1:\n";
     this->newShip();
+
     try {
-        // TODO
+        this->suspirium();
     } catch (Reached& ex) {
         std::cout << ex.what();
     }
@@ -107,7 +139,7 @@ void Control::scenario_three()
                 break;
 
                 case '4':
-                    if (roll()
+                    //if (roll()
                 break;
             }
         }

@@ -6,7 +6,7 @@
 
 class Control {
     private:
-        Spaceship* ship;
+        Spaceship* ship = nullptr;
         const Object* start_cell;
         unsigned int row, col, energy, x_ship, y_ship;
         Space space;
@@ -14,6 +14,7 @@ class Control {
         void newShip();
 
         void scenario_one();
+        void suspirium();
         void scenario_two();
         void scenario_three();
 

@@ -15,8 +15,10 @@ class Space {
 
     void buildSpaceCurrent(const Point& p);
     void buildSpaceObject(const Point& p);
-    void buildCell(const Point& p, const bool is_home = false);
+    void buildCell(const Point& p);
     void buildPipe(const Point& p);
+    void buildWormhole(Point const& p);
+
     void connectCells();
     void connectSpaceCurrent(Object* start);
     void connectSpaceObject(Object* start);

@@ -22,7 +22,6 @@ typedef std::pair<unsigned int, unsigned int> Point;
 class Object {
   private:
     char type;
-    bool is_home;
     std::map<DIRECTION, Object*> neighbors;
     const Object* target = nullptr;
     unsigned int special_energy_cost;
@@ -30,9 +29,9 @@ class Object {
     Point location;
 
   public:
-    Object (const Point& p, const char type = '0', const bool is_home = false) : location(p), type(type), is_home(is_home) {}
-    const char show() const { return this->type; }
-    const bool& isHome() const { return this->is_home; }
+    Object (const Point& p, const char type = '0') : location(p), type(type) {}
+    const char& show() const { return this->type; }
+    const bool isHome() const { return this->show() == '5'; }
 
     const Object* targetCell() const { return this->target; }
     void setTarget(Object* target) { this->target = target; }

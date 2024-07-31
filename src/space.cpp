@@ -3,14 +3,12 @@
 
 void Space::buildMap(const std::vector<std::vector<char>>& raw_map)
 {
+  this->raw_map = raw_map;
+
   const unsigned int row = raw_map.size();
   const unsigned int col = raw_map.at(0).size();
 
   this->map.assign(row, std::vector<Object*>(col, nullptr));
-
-  std::vector<std::vector<bool>> visited(row, std::vector<bool>(col, false));
-
-  std::vector<Point> wormholes;
 
   for (size_t i = 0; i < row; ++i) {
     for (size_t j = 0; j < col; ++j) {
@@ -28,11 +26,11 @@ void Space::buildMap(const std::vector<std::vector<char>>& raw_map)
           break;
 
         case '4':
-          wormholes.push_back({i, j});
+          this->buildWormhole({i, j});
           break;
 
         case '5':
-          this->buildCell({i, j}, true);
+          this->buildCell({i, j});
           break;
 
         default:
@@ -41,23 +39,12 @@ void Space::buildMap(const std::vector<std::vector<char>>& raw_map)
     }
   }
 
-  Point a = wormholes.at(0);
-  Point b = wormholes.at(1);
-  const auto& a_ptr = this->map.at(a.first).at(a.second) = new Object(a, '4');
-  const auto& b_ptr = this->map.at(b.first).at(b.second) = new Object(b, '4');
-
-  a_ptr->setEnergyCost(-11);
-  a_ptr->setTimeCost(0);
-  a_ptr->setTarget(b_ptr);
-
-  b_ptr->setEnergyCost(-11);
-  b_ptr->setTimeCost(0);
-  b_ptr->setTarget(a_ptr);
+  this->connectCells();
 }
 
-void Space::buildCell(const Point& p, const bool is_home)
+void Space::buildCell(const Point& p)
 {
-  this->map.at(p.first).at(p.second) = new Object(p, '0', is_home);
+  this->map.at(p.first).at(p.second) = new Object(p, this->raw_map.at(p.first).at(p.second));
 }
 
 void Space::buildSpaceCurrent(const Point& p)
@@ -70,6 +57,12 @@ void Space::buildSpaceObject(const Point& p)
   this->map.at(p.first).at(p.second) = new Object(p, '3');
 }
 
+void Space::buildWormhole(Point const& p)
+{
+    this->map.at(p.first).at(p.second) = new Object(p, '1');
+}
+
+#include <iostream>
 void Space::connectCells()
 {
   std::vector<Object*> wormholes;
@@ -81,10 +74,10 @@ void Space::connectCells()
 
   for (size_t i = 1; i < col - 1; ++i) {
     /* top side of the map */
-    neighbors.at(UP)    = nullptr;
-    neighbors.at(RIGHT) = this->map.at(0).at(i + 1);
-    neighbors.at(LEFT)  = this->map.at(1).at(i);
-    neighbors.at(DOWN)  = this->map.at(0).at(i - 1);
+    neighbors[UP]    = nullptr;
+    neighbors[RIGHT] = this->map.at(0).at(i + 1);
+    neighbors[LEFT]  = this->map.at(1).at(i);
+    neighbors[DOWN]  = this->map.at(0).at(i - 1);
 
     switch (this->map.at(0).at(i)->show()) {
       case '4':
@@ -103,10 +96,10 @@ void Space::connectCells()
     }
 
     /* right side of the map */
-    neighbors.at(UP)    = this->map.at(i - 1).at(col - 1);
-    neighbors.at(RIGHT) = nullptr;
-    neighbors.at(DOWN)  = this->map.at(i + 1).at(col - 1);
-    neighbors.at(LEFT)  = this->map.at(i).at(col - 2);
+    neighbors[UP]    = this->map.at(i - 1).at(col - 1);
+    neighbors[RIGHT] = nullptr;
+    neighbors[DOWN]  = this->map.at(i + 1).at(col - 1);
+    neighbors[LEFT]  = this->map.at(i).at(col - 2);
 
     switch (this->map.at(i).at(col - 1)->show()) {
       case '4':
@@ -125,10 +118,10 @@ void Space::connectCells()
     }
 
     /* bottom side of the map */
-    neighbors.at(UP)    = this->map.at(row - 2).at(i);
-    neighbors.at(RIGHT) = this->map.at(row - 1).at(i + 1);
-    neighbors.at(DOWN)  = nullptr;
-    neighbors.at(LEFT)  = this->map.at(row - 1).at(i - 1);
+    neighbors[UP]    = this->map.at(row - 2).at(i);
+    neighbors[RIGHT] = this->map.at(row - 1).at(i + 1);
+    neighbors[DOWN]  = nullptr;
+    neighbors[LEFT]  = this->map.at(row - 1).at(i - 1);
 
     switch (this->map.at(row - 1).at(i)->show()) {
       case '4':
@@ -147,10 +140,10 @@ void Space::connectCells()
     }
 
     /* left side of the map */
-    neighbors.at(UP)    = this->map.at(i - 1).at(0);
-    neighbors.at(RIGHT) = this->map.at(i).at(1);
-    neighbors.at(DOWN)  = this->map.at(i + 1).at(0);
-    neighbors.at(LEFT)  = nullptr;
+    neighbors[UP]    = this->map.at(i - 1).at(0);
+    neighbors[RIGHT] = this->map.at(i).at(1);
+    neighbors[DOWN]  = this->map.at(i + 1).at(0);
+    neighbors[LEFT]  = nullptr;
 
     switch (this->map.at(i).at(0)->show()) {
       case '4':
@@ -171,10 +164,10 @@ void Space::connectCells()
 
   /* connecting corners */
   /* top-left */
-  neighbors.at(UP)      = nullptr;
-  neighbors.at(RIGHT)   = this->map.at(0).at(1);
-  neighbors.at(DOWN)    = this->map.at(1).at(0);
-  neighbors.at(LEFT)    = nullptr;
+  neighbors[UP]      = nullptr;
+  neighbors[RIGHT]   = this->map.at(0).at(1);
+  neighbors[DOWN]    = this->map.at(1).at(0);
+  neighbors[LEFT]    = nullptr;
 
   switch (this->map.at(0).at(0)->show()) {
     case '4':
@@ -193,10 +186,10 @@ void Space::connectCells()
   }
 
   /* top-right */
-  neighbors.at(UP)      = nullptr;
-  neighbors.at(RIGHT)   = nullptr;
-  neighbors.at(DOWN)    = this->map.at(1).at(col - 1);
-  neighbors.at(LEFT)    = this->map.at(0).at(col - 2);
+  neighbors[UP]      = nullptr;
+  neighbors[RIGHT]   = nullptr;
+  neighbors[DOWN]    = this->map.at(1).at(col - 1);
+  neighbors[LEFT]    = this->map.at(0).at(col - 2);
 
   switch (this->map.at(0).at(col - 1)->show()) {
     case '4':
@@ -215,10 +208,10 @@ void Space::connectCells()
   }
 
   /* down-right */
-  neighbors.at(UP)      = this->map.at(row - 2).at(col - 1);
-  neighbors.at(RIGHT)   = nullptr;
-  neighbors.at(DOWN)    = nullptr;
-  neighbors.at(LEFT)    = this->map.at(row - 1).at(col - 2);
+  neighbors[UP]      = this->map.at(row - 2).at(col - 1);
+  neighbors[RIGHT]   = nullptr;
+  neighbors[DOWN]    = nullptr;
+  neighbors[LEFT]    = this->map.at(row - 1).at(col - 2);
 
   switch (this->map.at(row - 1).at(col - 1)->show()) {
     case '4':
@@ -237,10 +230,10 @@ void Space::connectCells()
   }
 
   /* down-left*/
-  neighbors.at(UP)      = this->map.at(row - 2).at(0);
-  neighbors.at(RIGHT)   = this->map.at(row - 1).at(1);
-  neighbors.at(DOWN)    = nullptr;
-  neighbors.at(LEFT)    = nullptr;
+  neighbors[UP]      = this->map.at(row - 2).at(0);
+  neighbors[RIGHT]   = this->map.at(row - 1).at(1);
+  neighbors[DOWN]    = nullptr;
+  neighbors[LEFT]    = nullptr;
 
   switch (this->map.at(row - 1).at(0)->show()) {
     case '4':
@@ -262,10 +255,10 @@ void Space::connectCells()
 
   for (size_t i = 1; i < row - 1; ++i) {
     for (size_t j = 1; j < col - 1; ++j) {
-      neighbors.at(UP)      = this->map.at(i - 1).at(j);
-      neighbors.at(RIGHT)   = this->map.at(i).at(j + 1);
-      neighbors.at(DOWN)    = this->map.at(i + 1).at(j);
-      neighbors.at(LEFT)    = this->map.at(i).at(j - 1);
+      neighbors[UP]      = this->map.at(i - 1).at(j);
+      neighbors[RIGHT]   = this->map.at(i).at(j + 1);
+      neighbors[DOWN]    = this->map.at(i + 1).at(j);
+      neighbors[LEFT]    = this->map.at(i).at(j - 1);
 
       switch (this->map.at(i).at(j)->show()) {
         case '0': /* empty cell */
@@ -295,8 +288,13 @@ void Space::connectCells()
 
   /* connecting wormholes (if they exist) */
   if (wormholes.size() == 2) {
-    wormholes.at(0)->setTarget(wormholes.at(1));
-    wormholes.at(1)->setTarget(wormholes.at(0));
+      wormholes.at(0)->setEnergyCost(-11);
+      wormholes.at(0)->setTimeCost(0);
+      wormholes.at(0)->setTarget(wormholes.at(1));
+
+      wormholes.at(1)->setEnergyCost(-11);
+      wormholes.at(1)->setTimeCost(0);
+      wormholes.at(1)->setTarget(wormholes.at(0));
   }
 }
 
@@ -307,35 +305,43 @@ void Space::connectSpaceCurrent(Object* start)
 
     const Point& begin = start->getLocation();
     Point last = begin;
-    Point current;
+    Point current = begin;
+    DIRECTION flag;
 
-    for (const auto& cell : start->getNeighbors()) {
-        if (cell.second == nullptr) {
-            current = cell.second->getLocation();
-            break;
-        }
+    if (1 <= begin.first && this->raw_map.at(begin.first - 1).at(begin.second) == '2') {
+        current.first--;
+        flag = UP;
+    } else if (begin.first < this->raw_map.size() && this->raw_map.at(begin.first + 1).at(begin.second) == '2') {
+        current.first++;
+        flag = DOWN;
+    } else if (1 <= begin.second && this->raw_map.at(begin.first).at(begin.second - 1) == '2') {
+        current.second--;
+        flag = LEFT;
+    } else if (begin.second < this->raw_map.at(0).size() && this->raw_map.at(begin.first).at(begin.second + 1) == '2') {
+        current.second++;
+        flag = RIGHT;
     }
 
     do {
         total_energy_cost += 2;
         total_time_cost   += 1;
 
-        if ( 0 <= current.first - 1) {
+        if (flag != UP && 1 <= current.first) {
             if (this->raw_map.at(current.first - 1).at(current.second) == '2') {
                 last = current;
                 current.first--;
             }
-        } else if (current.first + 1 <= this->raw_map.size()) {
+        } else if (flag != DOWN && current.first + 1 <= this->raw_map.size()) {
             if (this->raw_map.at(current.first + 1).at(current.second) == '2') {
                 last = current;
                 current.first++;
             }
-        } else if (0 <= current.second - 1) {
+        } else if (flag != LEFT && 1 <= current.second) {
             if (this->raw_map.at(current.first).at(current.second - 1) == '2') {
                 last = current;
                 current.second--;
             }
-        } else if (current.second + 1<=this->raw_map.at(0).size()) {
+        } else if (flag != RIGHT && current.second + 1 <= this->raw_map.at(0).size()) {
             if (this->raw_map.at(current.first).at(current.second + 1) == '2') {
                 last = current;
                 current.second++;
