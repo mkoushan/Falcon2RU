@@ -44,6 +44,7 @@ void Space::buildMap(const std::vector<std::vector<char>>& raw_map)
   }
 
   this->connectCells();
+
 }
 
 void Space::buildCell(const Point& p)
@@ -66,7 +67,6 @@ void Space::buildWormhole(Point const& p)
     this->map.at(p.first).at(p.second) = new Object(p, '4');
 }
 
-#include <iostream>
 void Space::connectCells()
 {
   std::vector<Object*> wormholes;
@@ -80,8 +80,8 @@ void Space::connectCells()
     /* top side of the map */
     neighbors[UP]    = nullptr;
     neighbors[RIGHT] = this->map.at(0).at(i + 1);
-    neighbors[LEFT]  = this->map.at(1).at(i);
-    neighbors[DOWN]  = this->map.at(0).at(i - 1);
+    neighbors[DOWN]  = this->map.at(1).at(i);
+    neighbors[LEFT]  = this->map.at(0).at(i - 1);
 
     switch (this->map.at(0).at(i)->show()) {
       case '4':
@@ -96,28 +96,6 @@ void Space::connectCells()
 
       case '0':
         this->map.at(0).at(i)->setNeighbors(neighbors);
-        break;
-    }
-
-    /* right side of the map */
-    neighbors[UP]    = this->map.at(i - 1).at(col - 1);
-    neighbors[RIGHT] = nullptr;
-    neighbors[DOWN]  = this->map.at(i + 1).at(col - 1);
-    neighbors[LEFT]  = this->map.at(i).at(col - 2);
-
-    switch (this->map.at(i).at(col - 1)->show()) {
-      case '4':
-        wormholes.push_back(this->map.at(i).at(col - 1));
-        this->map.at(i).at(col - 1)->setNeighbors(neighbors);
-        break;
-
-      case '1':
-        connectSpaceCurrent(this->map.at(i).at(col - 1));
-        this->map.at(i).at(col - 1)->setNeighbors(neighbors);
-        break;
-
-      case '0':
-        this->map.at(i).at(col - 1)->setNeighbors(neighbors);
         break;
     }
 
@@ -142,30 +120,53 @@ void Space::connectCells()
         this->map.at(row - 1).at(i)->setNeighbors(neighbors);
         break;
     }
-
-    /* left side of the map */
-    neighbors[UP]    = this->map.at(i - 1).at(0);
-    neighbors[RIGHT] = this->map.at(i).at(1);
-    neighbors[DOWN]  = this->map.at(i + 1).at(0);
-    neighbors[LEFT]  = nullptr;
-
-    switch (this->map.at(i).at(0)->show()) {
-      case '4':
-        wormholes.push_back(this->map.at(i).at(0));
-        this->map.at(i).at(0)->setNeighbors(neighbors);
-        break;
-
-      case '1':
-        connectSpaceCurrent(this->map.at(i).at(0));
-        this->map.at(i).at(0)->setNeighbors(neighbors);
-        break;
-
-      case '0':
-        this->map.at(i).at(0)->setNeighbors(neighbors);
-        break;
-    }
   }
 
+  for (size_t i = 1; i < row - 1; ++i) {
+    /* right side of the map */
+    neighbors[UP]    = this->map.at(i - 1).at(col - 1);
+    neighbors[RIGHT] = nullptr;
+    neighbors[DOWN]  = this->map.at(i + 1).at(col - 1);
+    neighbors[LEFT]  = this->map.at(i).at(col - 2);
+
+    switch (this->map.at(i).at(col - 1)->show()) {
+    case '4':
+        wormholes.push_back(this->map.at(i).at(col - 1));
+        this->map.at(i).at(col - 1)->setNeighbors(neighbors);
+        break;
+
+    case '1':
+        connectSpaceCurrent(this->map.at(i).at(col - 1));
+        this->map.at(i).at(col - 1)->setNeighbors(neighbors);
+        break;
+
+    case '0':
+        this->map.at(i).at(col - 1)->setNeighbors(neighbors);
+        break;
+    }
+
+      /* left side of the map */
+      neighbors[UP]    = this->map.at(i - 1).at(0);
+      neighbors[RIGHT] = this->map.at(i).at(1);
+      neighbors[DOWN]  = this->map.at(i + 1).at(0);
+      neighbors[LEFT]  = nullptr;
+
+      switch (this->map.at(i).at(0)->show()) {
+        case '4':
+          wormholes.push_back(this->map.at(i).at(0));
+          this->map.at(i).at(0)->setNeighbors(neighbors);
+          break;
+
+        case '1':
+          connectSpaceCurrent(this->map.at(i).at(0));
+          this->map.at(i).at(0)->setNeighbors(neighbors);
+          break;
+
+        case '0':
+          this->map.at(i).at(0)->setNeighbors(neighbors);
+          break;
+      }
+  }
   /* connecting corners */
   /* top-left */
   neighbors[UP]      = nullptr;

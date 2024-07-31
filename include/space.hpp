@@ -26,7 +26,7 @@ class Space {
   public:
     void buildMap(const std::vector<std::vector<char>>& raw_map);
     const Spaceship* getSpaceship() const {return this->ship;}
-    const Object* getCell(const Point& p) const {return this->map.at(p.first).at(p.second);}
+    const Object* const& getCell(const Point& p) const {return this->map.at(p.first).at(p.second);}
 };
 
 #endif // SPACE_HPP_INCLUDED

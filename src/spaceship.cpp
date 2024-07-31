@@ -14,7 +14,6 @@ void Spaceship::move(DIRECTION dir)
         + std::to_string(dir)
         + " failed\n");
   }
-
   // log
   const auto& target = this->location->getObject(dir);
   std::string log_text = this->getTimeStr() + " Moved from " + this->location->getLocationStr() + "to " + target->getLocationStr() + ", E:" + this->getEnergyStr();
@@ -88,7 +87,8 @@ void Spaceship::ride()
 const DIRECTION Spaceship::doSeeHome() const
 {
   for (const auto& cell : this->location->getNeighbors()) {
-      if (cell.second->isHome()) {
+      if (cell.second != nullptr && cell.second->isHome()) {
+          std::clog << 1;
           return cell.first;
       }
   }
