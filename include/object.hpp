@@ -4,7 +4,6 @@
 #include <utility>
 #include <string>
 #include <map>
-#include <iostream>
 
 enum DIRECTION {
   UP = 0,
@@ -41,7 +40,7 @@ class Object {
 
     const unsigned int& getEnergyCost() const { return this->special_energy_cost; }
     const unsigned int& getTimeCost() const { return this->special_time_cost; }
-    const Object* getObject(const DIRECTION& dir) const { std::clog << neighbors.size(); return this->neighbors.at(dir); }
+    const Object* getObject(const DIRECTION& dir) const { return this->neighbors.at(dir); }
 
     void setNeighbors(const std::map<DIRECTION, Object*>& neighbors) { this->neighbors = neighbors; }
     const std::map<DIRECTION, Object*>& getNeighbors() const { return this->neighbors; }

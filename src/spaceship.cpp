@@ -16,7 +16,7 @@ void Spaceship::move(DIRECTION dir)
   }
   // log
   const auto& target = this->location->getObject(dir);
-  std::string log_text = this->getTimeStr() + " Moved from " + this->location->getLocationStr() + "to " + target->getLocationStr() + ", E:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tMoved from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ",\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
   // finally moving towards the dir direction
@@ -36,7 +36,7 @@ void Spaceship::orbit()
 
   // log
   const Object* target = this->location->targetCell();
-  std::string log_text = this->getTimeStr() + " Orbited from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ", E:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tOrbited from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ",\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
   // orbiting through the space object
@@ -56,7 +56,7 @@ void Spaceship::teleport()
 
  // log
   const Object* target = this->location->targetCell();
-  std::string log_text = this->getTimeStr() + " Teleported from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ", E:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tTeleported from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ",\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
   // teleporting
@@ -75,7 +75,7 @@ void Spaceship::ride()
 
   // log
   const Object* target = this->location->targetCell();
-  std::string log_text = this->getTimeStr() + " Rided from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ", E:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tRided from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ",\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
   // riding
@@ -88,7 +88,6 @@ const DIRECTION Spaceship::doSeeHome() const
 {
   for (const auto& cell : this->location->getNeighbors()) {
       if (cell.second != nullptr && cell.second->isHome()) {
-          std::clog << 1;
           return cell.first;
       }
   }

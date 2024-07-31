@@ -204,5 +204,5 @@ void Control::newShip()
     if (this->ship != nullptr) {
         delete this->ship;
     }
-    this->ship = new Spaceship(start_cell);
+    this->ship = new Spaceship(this->start_cell, this->energy);
 }
