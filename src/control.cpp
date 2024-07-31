@@ -5,9 +5,9 @@
 #include "reached.hpp"
 
 #include <iostream>
-#include <ostream>
 #include <stdexcept>
 #include <set>
+#include <algorithm>
 
 void Control::run()
 {
@@ -74,9 +74,8 @@ void Control::scenario_one()
     try {
         this->suspirium();
     } catch (Reached& ex) {
-        std::cout << ex.what();
+        std::clog << ex.what();
     }
-
 }
 
 void Control::scenario_two()
@@ -108,7 +107,7 @@ void Control::scenario_three()
                     if (this->ship->getCell()->getEnergyCost() == 12) { // space object is close
                         // TODO
                     } else { // empty cell
-
+                        this->randomMove();
                     }
                 break;
 
@@ -117,32 +116,35 @@ void Control::scenario_three()
                    if (roll({{0, 0.75}, {1, 25}}) == 0) {
                        this->ship->ride();
                    } else {
-                       switch(roll({{0, 0.25}, {1, 0.25}, {2, 0.25}, {3, 0.25}})) {
-                            case 0: // move up
-                                this->ship->move(UP);
-                            break;
-
-                            case 1: // move right
-                                this->ship->move(RIGHT);
-                            break;
-
-                            case 2: // move down
-                                this->ship->move(DOWN);
-                            break;
-
-                            case 3: // move left
-                                this->ship->move(LEFT);
-                            break;
-                       }
+                       this->randomMove();
                    }
                 break;
 
-                case '4':
-                    //if (roll()
+                case '4': {
+                    auto const& [i, j] = this->ship->getCell()->getLocation();
+                    unsigned int x = std::min({i, row - i, j, col - j});
+                    x = 4 * x * x;
+
+                    auto const& [k, h] = this->ship->getCell()->targetCell()->getLocation();
+                    unsigned int y = std::min({k, row - k, h, col - h});
+                    y = 4 * y * y;
+
+                    if (x > y) {
+                        this->ship->teleport();
+                    } else if (x < y) {
+                        this->randomMove();
+                    } else {
+                        // 0:move, 1:teleport
+                        if (roll({{0, 0.5}, {1, 0.5}}) == 0) {
+                            this->randomMove();
+                        } else {
+                            this->ship->teleport();
+                        }
+                    }
+                }
                 break;
             }
         }
-
     } catch (std::domain_error const& ex) {
         this->ship->printLog();
         std::cerr << std::endl;
@@ -150,6 +152,33 @@ void Control::scenario_three()
     } catch (Reached& ex) {
         std::cout << ex.what();
     }
+}
+
+void Control::randomMove()
+{
+    try {
+        switch(roll({{0, 0.25}, {1, 0.25}, {2, 0.25}, {3, 0.25}})) {
+             case 0: // move up
+                 this->ship->move(UP);
+             break;
+
+             case 1: // move right
+                 this->ship->move(RIGHT);
+             break;
+
+             case 2: // move down
+                 this->ship->move(DOWN);
+             break;
+
+             case 3: // move left
+                 this->ship->move(LEFT);
+             break;
+        }
+    } catch (std::invalid_argument const& ex) {
+        // everything is ok don't worry'
+    }
+    system("clear");
+    this->ship->printLog();
 }
 
 void Control::checkHome()

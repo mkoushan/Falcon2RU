@@ -97,6 +97,6 @@ const DIRECTION Spaceship::doSeeHome() const
 void Spaceship::printLog() const
 {
   for (const auto& log : this->logs) {
-    std::cout << log << std::endl;
+    std::clog << log << std::endl;
   }
 }

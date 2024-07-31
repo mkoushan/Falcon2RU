@@ -15,6 +15,8 @@ class Control {
 
         void scenario_one();
         void suspirium();
+
+        void randomMove();
         void scenario_two();
         void scenario_three();
 
