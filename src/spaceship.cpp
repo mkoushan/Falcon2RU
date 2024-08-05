@@ -23,7 +23,7 @@ void Spaceship::move(DIRECTION dir)
 
   // log
   std::string dir_str = dir == 0 ? "UP" : dir == 1 ? "RIGHT" : dir == 2 ? "DOWN" : dir == 3 ? "LEFT" : "WTF";
-  std::string log_text = this->getTimeStr() + "\tMoved " + dir_str + ",\tE:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tMoved " + dir_str + "\t\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
 }
@@ -39,6 +39,9 @@ void Spaceship::orbit()
 
   // orbiting through the space object
   const Object* target = this->location->targetCell();
+  if (this->energy < target->getEnergyCost()) {
+      throw std::invalid_argument("");
+  }
   this->location = target;
   this->energy -= 12;
   this->time += 9;
@@ -80,6 +83,9 @@ void Spaceship::ride()
 
   // riding
   const Object* target = this->location->targetCell();
+  if (this->energy < target->getEnergyCost()) {
+      throw std::invalid_argument("");
+  }
   this->location = target;
   this->energy -= target->getEnergyCost();
   this->time += target->getTimeCost();

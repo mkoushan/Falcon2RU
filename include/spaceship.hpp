@@ -7,7 +7,7 @@
 class Spaceship {
   private:
     const Object* location;
-    unsigned int energy;
+    int energy;
     unsigned int time {0};
     unsigned int move_energy_cost;
     unsigned int move_time_cost;
@@ -24,7 +24,7 @@ class Spaceship {
     const DIRECTION doSeeHome() const;
 
     const Object* getCell() const { return this->location; }
-    const unsigned int& getEnergy() const { return this->energy; }
+    const int& getEnergy() const { return this->energy; }
     const unsigned int& getTime() const { return this->time; }
     const std::string getEnergyStr() const { return std::to_string(this->energy); }
     const std::string getTimeStr() const { return std::to_string(this->time); }
