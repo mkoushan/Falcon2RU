@@ -23,7 +23,7 @@ void Spaceship::move(DIRECTION dir)
 
   // log
   std::string dir_str = dir == 0 ? "UP" : dir == 1 ? "RIGHT" : dir == 2 ? "DOWN" : dir == 3 ? "LEFT" : "WTF";
-  std::string log_text = this->getTimeStr() + "\tMoved " + std::to_string(dir) + ",\tE:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tMoved " + dir_str + ",\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
 }
@@ -44,7 +44,7 @@ void Spaceship::orbit()
   this->time += 9;
 
   // log
-  std::string log_text = this->getTimeStr() + "\tOrbited, " + "\tE:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tOrbited " + "\t\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
 }
@@ -64,7 +64,7 @@ void Spaceship::teleport()
   this->energy /= 2;
 
   // log
-  std::string log_text = this->getTimeStr() + "\tTeleported," + "\tE:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tTeleported" + "\t\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
 }
@@ -85,7 +85,7 @@ void Spaceship::ride()
   this->time += target->getTimeCost();
 
   // log
-  std::string log_text = this->getTimeStr() + "\tRided, " + "\tE:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tRided" + "\t\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 }
 

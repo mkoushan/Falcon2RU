@@ -19,7 +19,7 @@ class Space {
 
     void connectCells();
     void connectSpaceCurrent(Object* start);
-    void connectSpaceObject(Object* start);
+    void connectSpaceObject(const Point& p);
 
   public:
     void buildMap(const std::vector<std::vector<char>>& raw_map);

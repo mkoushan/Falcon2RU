@@ -105,7 +105,15 @@ void Control::scenario_three()
             switch(this->ship->getCell()->show()) {
                 case '0':
                     if (this->ship->getCell()->getEnergyCost() == 12) { // space object is close
-                        // TODO
+                        switch (roll({{0, 67}, {1, 33}})) {
+                            case 0:
+                                this->ship->orbit();
+                            break;
+
+                            case 1:
+                                this->randomMove();
+                            break;
+                        }
                     } else { // empty cell
                         this->randomMove();
                     }
@@ -121,25 +129,24 @@ void Control::scenario_three()
                 break;
 
                 case '4': {
-                    auto const& [i, j] = this->ship->getCell()->getLocation();
-                    unsigned int x = std::min({i, row - i, j, col - j});
-                    x = 4 * x * x;
 
-                    auto const& [k, h] = this->ship->getCell()->targetCell()->getLocation();
-                    unsigned int y = std::min({k, row - k, h, col - h});
-                    y = 4 * y * y;
-
-                    if (x > y) {
-                        this->ship->teleport();
-                    } else if (x < y) {
-                        this->randomMove();
-                    } else {
-                        // 0:move, 1:teleport
-                        if (roll({{0, 0.5}, {1, 0.5}}) == 0) {
-                            this->randomMove();
-                        } else {
+                    switch (roll({{0, 0.33}, {1, 0.33}, {2, 0.34}})) {
+                        case 0:
                             this->ship->teleport();
-                        }
+                        break;
+
+                        case 1:
+                            this->randomMove();
+                        break;
+
+                        case 2:
+                            // 0:move, 1:teleport
+                            if (roll({{0, 0.5}, {1, 0.5}}) == 0) {
+                                this->randomMove();
+                            } else {
+                                this->ship->teleport();
+                            }
+                        break;
                     }
                 }
                 break;

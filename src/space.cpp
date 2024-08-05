@@ -253,7 +253,12 @@ void Space::connectCells()
 
   for (size_t i = 1; i < row - 1; ++i) {
     for (size_t j = 1; j < col - 1; ++j) {
-      if (this->map.at(i).at(j) == nullptr) continue;
+      if (this->raw_map.at(i).at(j) == '2') continue;
+      else if (this->raw_map.at(i).at(j) == '3') {
+          this->connectSpaceObject({i - 1, j});
+          continue;
+      }
+
       neighbors[UP]      = this->map.at(i - 1).at(j);
       neighbors[RIGHT]   = this->map.at(i).at(j + 1);
       neighbors[DOWN]    = this->map.at(i + 1).at(j);
@@ -268,10 +273,6 @@ void Space::connectCells()
         case '1': /* side of space current */
           this->connectSpaceCurrent(this->map.at(i).at(j));
           this->map.at(i).at(j)->setNeighbors(neighbors);
-          break;
-
-        case '3': /* side of space object */
-          this->connectSpaceObject(this->map.at(i).at(j));
           break;
 
         case '4': /* side of wormhole */
@@ -363,7 +364,50 @@ void Space::connectSpaceCurrent(Object* start)
     end->setTimeCost(total_time_cost);
 }
 
-void Space::connectSpaceObject(Object* start)
+void Space::connectSpaceObject(const Point& p)
 {
-  // TODO
+    auto [i, j] = p;
+    if (this->raw_map.at(i + 2).at(j) != '3' || this->raw_map.at(i + 1).at(j + 1) != '3') {
+        return;
+    }
+    // start is pointing to a
+    // 0 a b 0
+    // h 3 3 c
+    // g 3 3 d
+    // 0 f e 0
+
+    const auto& a = this->map.at(i).at(j);
+    const auto& b = this->map.at(i).at(++j);
+    const auto& c = this->map.at(++i).at(++j);
+    const auto& d = this->map.at(++i).at(j);
+    const auto& e = this->map.at(++i).at(--j);
+    const auto& f = this->map.at(i).at(--j);
+    const auto& g = this->map.at(--i).at(--j);
+    const auto& h = this->map.at(--i).at(j);
+
+    a->setEnergyCost(12);
+    a->setTimeCost(9);
+    b->setEnergyCost(12);
+    b->setTimeCost(9);
+    c->setEnergyCost(12);
+    c->setTimeCost(9);
+    d->setEnergyCost(12);
+    d->setTimeCost(9);
+    e->setEnergyCost(12);
+    e->setTimeCost(9);
+    f->setEnergyCost(12);
+    f->setTimeCost(9);
+    g->setEnergyCost(12);
+    g->setTimeCost(9);
+    h->setEnergyCost(12);
+    h->setTimeCost(9);
+
+    a->setTarget(f);
+    f->setTarget(a);
+    b->setTarget(e);
+    e->setTarget(b);
+    c->setTarget(h);
+    h->setTarget(c);
+    d->setTarget(g);
+    g->setTarget(d);
 }
