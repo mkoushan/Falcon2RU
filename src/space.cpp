@@ -22,11 +22,9 @@ void Space::buildMap(const std::vector<std::vector<char>>& raw_map)
           break;
 
         case '2':
-            this->map.at(i).at(j) = new Object({i, j}, '2');
         break;
 
         case '3':
-          this->buildSpaceObject({i, j});
           break;
 
         case '4':
@@ -55,11 +53,6 @@ void Space::buildCell(const Point& p)
 void Space::buildSpaceCurrent(const Point& p)
 {
   this->map.at(p.first).at(p.second) = new Object(p, '1');
-}
-
-void Space::buildSpaceObject(const Point& p)
-{
-  this->map.at(p.first).at(p.second) = new Object(p, '3');
 }
 
 void Space::buildWormhole(Point const& p)
@@ -260,6 +253,7 @@ void Space::connectCells()
 
   for (size_t i = 1; i < row - 1; ++i) {
     for (size_t j = 1; j < col - 1; ++j) {
+      if (this->map.at(i).at(j) == nullptr) continue;
       neighbors[UP]      = this->map.at(i - 1).at(j);
       neighbors[RIGHT]   = this->map.at(i).at(j + 1);
       neighbors[DOWN]    = this->map.at(i + 1).at(j);

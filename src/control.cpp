@@ -74,7 +74,7 @@ void Control::scenario_one()
     try {
         this->suspirium();
     } catch (Reached& ex) {
-        std::clog << ex.what();
+        std::clog << ex.what() << std::endl;
     }
 }
 
@@ -90,7 +90,7 @@ void Control::scenario_two()
         std::cerr << std::endl;
         std::cerr << "energy limit reached and we couldn't find the home :(\n";
     } catch (Reached& ex) {
-        std::cout << ex.what();
+        std::cout << ex.what() << std::endl;
     }
 }
 
@@ -150,7 +150,7 @@ void Control::scenario_three()
         std::cerr << std::endl;
         std::cerr << "energy limit reached and we couldn't find the home :(\n";
     } catch (Reached& ex) {
-        std::cout << ex.what();
+        std::cout << ex.what() << std::endl;
     }
 }
 
@@ -177,8 +177,6 @@ void Control::randomMove()
     } catch (std::invalid_argument const& ex) {
         // everything is ok don't worry'
     }
-    system("clear");
-    this->ship->printLog();
 }
 
 void Control::checkHome()

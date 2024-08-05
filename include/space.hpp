@@ -14,9 +14,7 @@ class Space {
     Spaceship* ship;
 
     void buildSpaceCurrent(const Point& p);
-    void buildSpaceObject(const Point& p);
     void buildCell(const Point& p);
-    void buildPipe(const Point& p);
     void buildWormhole(Point const& p);
 
     void connectCells();
