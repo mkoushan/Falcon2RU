@@ -1,5 +1,6 @@
 #include <iostream>
 #include <stdexcept>
+#include <string>
 
 #include "spaceship.hpp"
 
@@ -8,21 +9,23 @@ void Spaceship::move(DIRECTION dir)
   // check if we can move to that direction
   if (this->location->getObject(dir) == nullptr) {
     throw std::invalid_argument(
-        "moving from "
-        + this->location->getLocationStr()
-        + " to direction "
+        "moving towards "
         + std::to_string(dir)
         + " failed\n");
   }
-  // log
-  const auto& target = this->location->getObject(dir);
-  std::string log_text = this->getTimeStr() + "\tMoved from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ",\tE:" + this->getEnergyStr();
-  this->logs.push_back(log_text);
 
-  // finally moving towards the dir direction
+  // moving towards the dir direction
+  const auto& target = this->location->getObject(dir);
   this->location = target;
   this->energy -= 1;
   this->time += 5;
+
+
+  // log
+  std::string dir_str = dir == 0 ? "UP" : dir == 1 ? "RIGHT" : dir == 2 ? "DOWN" : dir == 3 ? "LEFT" : "WTF";
+  std::string log_text = this->getTimeStr() + "\tMoved " + std::to_string(dir) + ",\tE:" + this->getEnergyStr();
+  this->logs.push_back(log_text);
+
 }
 
 void Spaceship::orbit()
@@ -34,15 +37,16 @@ void Spaceship::orbit()
           + " failed because there's no space object near the ship\n");
   }
 
-  // log
-  const Object* target = this->location->targetCell();
-  std::string log_text = this->getTimeStr() + "\tOrbited from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ",\tE:" + this->getEnergyStr();
-  this->logs.push_back(log_text);
-
   // orbiting through the space object
+  const Object* target = this->location->targetCell();
   this->location = target;
   this->energy -= 12;
   this->time += 9;
+
+  // log
+  std::string log_text = this->getTimeStr() + "\tOrbited, " + "\tE:" + this->getEnergyStr();
+  this->logs.push_back(log_text);
+
 }
 
 void Spaceship::teleport()
@@ -54,14 +58,15 @@ void Spaceship::teleport()
                + " failed beacuse this cell is not a wormhole entry\n");
   }
 
- // log
-  const Object* target = this->location->targetCell();
-  std::string log_text = this->getTimeStr() + "\tTeleported from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ",\tE:" + this->getEnergyStr();
-  this->logs.push_back(log_text);
-
   // teleporting
+  const Object* target = this->location->targetCell();
   this->location = target;
   this->energy /= 2;
+
+  // log
+  std::string log_text = this->getTimeStr() + "\tTeleported," + "\tE:" + this->getEnergyStr();
+  this->logs.push_back(log_text);
+
 }
 
 void Spaceship::ride()
@@ -73,15 +78,15 @@ void Spaceship::ride()
                      + " failed beacuse this cell is not a space current entry\n");
   }
 
-  // log
-  const Object* target = this->location->targetCell();
-  std::string log_text = this->getTimeStr() + "\tRided from " + this->location->getLocationStr() + " to " + target->getLocationStr() + ",\tE:" + this->getEnergyStr();
-  this->logs.push_back(log_text);
-
   // riding
+  const Object* target = this->location->targetCell();
   this->location = target;
   this->energy -= target->getEnergyCost();
   this->time += target->getTimeCost();
+
+  // log
+  std::string log_text = this->getTimeStr() + "\tRided, " + "\tE:" + this->getEnergyStr();
+  this->logs.push_back(log_text);
 }
 
 const DIRECTION Spaceship::doSeeHome() const
