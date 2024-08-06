@@ -121,7 +121,7 @@ void Space::connectCells()
     neighbors[DOWN]  = this->map.at(i + 1).at(col - 1);
     neighbors[LEFT]  = this->map.at(i).at(col - 2);
 
-    switch (this->map.at(i).at(col - 1)->show()) {
+    switch (this->raw_map.at(i).at(col - 1)) {
     case '4':
         wormholes.push_back(this->map.at(i).at(col - 1));
         this->map.at(i).at(col - 1)->setNeighbors(neighbors);
@@ -143,7 +143,7 @@ void Space::connectCells()
       neighbors[DOWN]  = this->map.at(i + 1).at(0);
       neighbors[LEFT]  = nullptr;
 
-      switch (this->map.at(i).at(0)->show()) {
+      switch (this->raw_map.at(i).at(0)) {
         case '4':
           wormholes.push_back(this->map.at(i).at(0));
           this->map.at(i).at(0)->setNeighbors(neighbors);
@@ -166,7 +166,7 @@ void Space::connectCells()
   neighbors[DOWN]    = this->map.at(1).at(0);
   neighbors[LEFT]    = nullptr;
 
-  switch (this->map.at(0).at(0)->show()) {
+  switch (this->raw_map.at(0).at(0)) {
     case '4':
       wormholes.push_back(this->map.at(0).at(0));
       this->map.at(0).at(0)->setNeighbors(neighbors);
@@ -188,7 +188,7 @@ void Space::connectCells()
   neighbors[DOWN]    = this->map.at(1).at(col - 1);
   neighbors[LEFT]    = this->map.at(0).at(col - 2);
 
-  switch (this->map.at(0).at(col - 1)->show()) {
+  switch (this->raw_map.at(0).at(col - 1)) {
     case '4':
       wormholes.push_back(this->map.at(0).at(col - 1));
       this->map.at(0).at(col - 1)->setNeighbors(neighbors);
@@ -210,7 +210,7 @@ void Space::connectCells()
   neighbors[DOWN]    = nullptr;
   neighbors[LEFT]    = this->map.at(row - 1).at(col - 2);
 
-  switch (this->map.at(row - 1).at(col - 1)->show()) {
+  switch (this->raw_map.at(row - 1).at(col - 1)) {
     case '4':
       wormholes.push_back(this->map.at(row - 1).at(col - 1));
       this->map.at(row - 1).at(col - 1)->setNeighbors(neighbors);
@@ -232,7 +232,7 @@ void Space::connectCells()
   neighbors[DOWN]    = nullptr;
   neighbors[LEFT]    = nullptr;
 
-  switch (this->map.at(row - 1).at(0)->show()) {
+  switch (this->raw_map.at(row - 1).at(0)) {
     case '4':
       wormholes.push_back(this->map.at(row - 1).at(0));
       this->map.at(row - 1).at(0)->setNeighbors(neighbors);
@@ -263,7 +263,7 @@ void Space::connectCells()
       neighbors[DOWN]    = this->map.at(i + 1).at(j);
       neighbors[LEFT]    = this->map.at(i).at(j - 1);
 
-      switch (this->map.at(i).at(j)->show()) {
+      switch (this->raw_map.at(i).at(j)) {
         case '0': /* empty cell */
         case '5':
           this->map.at(i).at(j)->setNeighbors(neighbors);
