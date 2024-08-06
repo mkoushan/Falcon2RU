@@ -1,6 +1,6 @@
 #include "space.hpp"
 #include "object.hpp"
-
+#include <iostream>
 void Space::buildMap(const std::vector<std::vector<char>>& raw_map)
 {
   this->raw_map = raw_map;
@@ -40,7 +40,6 @@ void Space::buildMap(const std::vector<std::vector<char>>& raw_map)
       }
     }
   }
-
   this->connectCells();
 
 }
@@ -76,7 +75,7 @@ void Space::connectCells()
     neighbors[DOWN]  = this->map.at(1).at(i);
     neighbors[LEFT]  = this->map.at(0).at(i - 1);
 
-    switch (this->map.at(0).at(i)->show()) {
+    switch (this->raw_map.at(0).at(i)) {
       case '4':
         wormholes.push_back(this->map.at(0).at(i));
         this->map.at(0).at(i)->setNeighbors(neighbors);
@@ -98,7 +97,7 @@ void Space::connectCells()
     neighbors[DOWN]  = nullptr;
     neighbors[LEFT]  = this->map.at(row - 1).at(i - 1);
 
-    switch (this->map.at(row - 1).at(i)->show()) {
+    switch (this->raw_map.at(row - 1).at(i)) {
       case '4':
         wormholes.push_back(this->map.at(row - 1).at(i));
         this->map.at(row - 1).at(i)->setNeighbors(neighbors);
@@ -310,16 +309,17 @@ void Space::connectSpaceCurrent(Object* start)
     if (1 <= begin.first && this->raw_map.at(begin.first - 1).at(begin.second) == '2') {
         current.first--;
         flag = DOWN;
-    } else if (begin.first < this->raw_map.size() && this->raw_map.at(begin.first + 1).at(begin.second) == '2') {
+    } else if (begin.first < this->raw_map.size() - 1 && this->raw_map.at(begin.first + 1).at(begin.second) == '2') {
         current.first++;
         flag = UP;
     } else if (1 <= begin.second && this->raw_map.at(begin.first).at(begin.second - 1) == '2') {
         current.second--;
         flag = RIGHT;
-    } else if (begin.second < this->raw_map.at(0).size() && this->raw_map.at(begin.first).at(begin.second + 1) == '2') {
+    } else if (begin.second < this->raw_map.at(0).size() - 1 && this->raw_map.at(begin.first).at(begin.second + 1) == '2') {
         current.second++;
         flag = LEFT;
     }
+
     do {
         total_energy_cost += 2;
         total_time_cost   += 1;
@@ -332,7 +332,7 @@ void Space::connectSpaceCurrent(Object* start)
                 continue;
             }
         }
-        if (flag != DOWN && current.first + 1 <= this->raw_map.size()) {
+        if (flag != DOWN && current.first + 1 < this->raw_map.size()) {
             if (this->raw_map.at(current.first + 1).at(current.second) == '2'
                 || this->raw_map.at(current.first + 1).at(current.second) == '1') {
                 current.first++;
@@ -348,7 +348,7 @@ void Space::connectSpaceCurrent(Object* start)
                 continue;
             }
         }
-        if (flag != RIGHT && current.second + 1 <= this->raw_map.at(0).size()) {
+        if (flag != RIGHT && current.second + 1 < this->raw_map.at(0).size()) {
             if (this->raw_map.at(current.first).at(current.second + 1) == '2'
                 || this->raw_map.at(current.first).at(current.second + 1) == '1') {
                 current.second++;
