@@ -7,7 +7,6 @@
 #include <iostream>
 #include <stdexcept>
 #include <map>
-#include <algorithm>
 
 void Control::run()
 {
@@ -36,7 +35,7 @@ void Control::run()
 
 void Control::suspirium()
 {
-    static std::map<Object*, bool> visited;
+    static std::map<const Object*, bool> visited;
     //if (visited[this->ship->getCell()])
     //    return;
     visited[this->ship->getCell()] = true;
@@ -75,7 +74,7 @@ void Control::suspirium()
     }
     if (this->ship->getCell()->show() == 1) {
         try {
-            ride();
+            this->ship->ride();
         } catch (std::invalid_argument const& ex) {}
     }
 }
