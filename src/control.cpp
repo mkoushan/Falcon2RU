@@ -91,13 +91,99 @@ void Control::scenario_one()
     }
 }
 
+void Control::suspirium2()
+{
+    static std::map<const Object*, bool> visited;
+    //if (visited[this->ship->getCell()])
+    //    return;
+    visited[this->ship->getCell()] = true;
+    this->checkHome();
+    if (! visited[this->ship->getCell()->getObject(RIGHT)])
+    {
+        try {
+            this->ship->move(RIGHT);
+            this->suspirium();
+            this->ship->move(LEFT);
+        } catch (std::invalid_argument const& ex) {}
+    }
+    if (! visited[this->ship->getCell()->getObject(UP)])
+    {
+        try {
+            this->ship->move(UP);
+            this->suspirium();
+            this->ship->move(DOWN);
+        } catch (std::invalid_argument const& ex) {}
+    }
+    if (! visited[this->ship->getCell()->getObject(LEFT)])
+    {
+        try {
+            this->ship->move(LEFT);
+            this->suspirium();
+            this->ship->move(RIGHT);
+        } catch (std::invalid_argument const& ex) {}
+    }
+    if (! visited[this->ship->getCell()->getObject(DOWN)])
+    {
+        try {
+            this->ship->move(DOWN);
+            this->suspirium();
+            this->ship->move(UP);
+        } catch (std::invalid_argument const& ex) {}
+    }
+}
+
+void Control::suspirium3()
+{
+    static std::map<const Object*, bool> visited;
+    visited[this->ship->getCell()] = true;
+    this->checkHome();
+    if (this->ship->getCell()->show() == 1) {
+        try {
+            this->ship->ride();
+        } catch (std::invalid_argument const& ex) {}
+    }
+    if (! visited[this->ship->getCell()->getObject(RIGHT)])
+    {
+        try {
+            this->ship->move(RIGHT);
+            this->suspirium();
+            this->ship->move(LEFT);
+        } catch (std::invalid_argument const& ex) {}
+    }
+    if (! visited[this->ship->getCell()->getObject(UP)])
+    {
+        try {
+            this->ship->move(UP);
+            this->suspirium();
+            this->ship->move(DOWN);
+        } catch (std::invalid_argument const& ex) {}
+    }
+    if (! visited[this->ship->getCell()->getObject(LEFT)])
+    {
+        try {
+            this->ship->move(LEFT);
+            this->suspirium();
+            this->ship->move(RIGHT);
+        } catch (std::invalid_argument const& ex) {}
+    }
+    if (! visited[this->ship->getCell()->getObject(DOWN)])
+    {
+        try {
+            this->ship->move(DOWN);
+            this->suspirium();
+            this->ship->move(UP);
+        } catch (std::invalid_argument const& ex) {}
+    }
+}
+
 void Control::scenario_two()
 {
     std::clog << "\nScenario #2:\n";
     this->newShip();
 
     try {
-        // TODO
+        this->suspirium2();
+        this->suspirium3();
     } catch (std::domain_error const& ex) {
         this->ship->printLog();
         std::cerr << std::endl;
