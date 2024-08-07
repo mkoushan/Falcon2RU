@@ -20,12 +20,12 @@ void Spaceship::move(DIRECTION dir)
   this->energy -= 1;
   this->time += 5;
 
-
   // log
   std::string dir_str = dir == 0 ? "UP" : dir == 1 ? "RIGHT" : dir == 2 ? "DOWN" : dir == 3 ? "LEFT" : "WTF";
-  std::string log_text = this->getTimeStr() + "\tMoved " + dir_str + "\t\tE:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tMoved " + dir_str + "\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
+  this->processAround();
 }
 
 void Spaceship::orbit()
@@ -50,6 +50,7 @@ void Spaceship::orbit()
   std::string log_text = this->getTimeStr() + "\tOrbited " + "\t\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
+  this->processAround();
 }
 
 void Spaceship::teleport()
@@ -67,9 +68,10 @@ void Spaceship::teleport()
   this->energy /= 2;
 
   // log
-  std::string log_text = this->getTimeStr() + "\tTeleported" + "\t\tE:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tTeleported" + "\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
+  this->processAround();
 }
 
 void Spaceship::ride()
@@ -93,6 +95,8 @@ void Spaceship::ride()
   // log
   std::string log_text = this->getTimeStr() + "\tRided" + "\t\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
+
+  this->processAround();
 }
 
 const DIRECTION Spaceship::doSeeHome() const
@@ -103,6 +107,17 @@ const DIRECTION Spaceship::doSeeHome() const
       }
   }
   return UNKNOWN;
+}
+
+void Spaceship::processAround()
+{
+    this->visited_cells.insert(this->location);
+
+    for (const auto& [dummy, cell] : this->location->getNeighbors()) {
+        if (cell != nullptr) {
+            this->seen_cells.insert(cell);
+        }
+    }
 }
 
 void Spaceship::printLog() const

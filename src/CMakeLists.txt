@@ -1,6 +1,5 @@
 set(PROJECT_SOURCES
     main.cpp
-    dice.cpp
     space.cpp
     spaceship.cpp
     control.cpp

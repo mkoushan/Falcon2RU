@@ -205,9 +205,10 @@ void Control::scenario_three()
                 switch(this->ship->getCell()->show()) {
                     case '0':
                         if (this->ship->getCell()->getEnergyCost() == 12) { // space object is close
-                            switch (roll({{0, 67}, {1, 33}})) {
+                            switch (roll({0, 0, 1})) {
                                 case 0:
                                     this->ship->orbit();
+                                    this->randomMove();
                                 break;
 
                                 case 1:
@@ -217,22 +218,25 @@ void Control::scenario_three()
                         } else { // empty cell
                             this->randomMove();
                         }
+                        continue;
                     break;
 
                     case '1':
                         // 0:ride, 1:move
-                    if (roll({{0, 0.75}, {1, 25}}) == 0) {
-                        this->ship->ride();
-                    } else {
-                        this->randomMove();
-                    }
+                        if (roll({0, 0, 0, 1}) == 0) {
+                            this->ship->ride();
+                            this->randomMove();
+                        } else {
+                            this->randomMove();
+                        }
+                        continue;
                     break;
 
-                    case '4': {
-
-                        switch (roll({{0, 0.33}, {1, 0.33}, {2, 0.34}})) {
+                    case '4':
+                        switch (roll({0, 1, 2})) {
                             case 0:
                                 this->ship->teleport();
+                                this->randomMove();
                             break;
 
                             case 1:
@@ -241,14 +245,13 @@ void Control::scenario_three()
 
                             case 2:
                                 // 0:move, 1:teleport
-                                if (roll({{0, 0.5}, {1, 0.5}}) == 0) {
-                                    this->randomMove();
-                                } else {
+                                if (roll({0, 1}) == 1) {
                                     this->ship->teleport();
                                 }
+                                this->randomMove();
                             break;
                         }
-                    }
+                        continue;
                     break;
                 }
             } catch (std::invalid_argument const& ex) {}
@@ -265,24 +268,27 @@ void Control::scenario_three()
 
 void Control::randomMove()
 {
-    try {
-        switch(roll({{0, 0.25}, {1, 0.25}, {2, 0.25}, {3, 0.25}})) {
-             case 0: // move up
-                 this->ship->move(UP);
-             break;
+    std::vector<DIRECTION> directions = {UP, RIGHT, LEFT, DOWN};
+    std::vector<DIRECTION> maybe;
 
-             case 1: // move right
-                 this->ship->move(RIGHT);
-             break;
+    const Object* const& cell = this->ship->getCell();
+    for (const auto& dir : directions) {
+        if (cell->getObject(dir) != nullptr
+            && !this->ship->hasBeen(cell->getObject(dir))) {
+                maybe.push_back(dir);
+            }
+    }
 
-             case 2: // move down
-                 this->ship->move(DOWN);
-             break;
-
-             case 3: // move left
-                 this->ship->move(LEFT);
-             break;
+    if (maybe.empty()) {
+        for (const auto& dir : directions) {
+        if (cell->getObject(dir) != nullptr) {
+                maybe.push_back(dir);
+            }
         }
+    }
+
+    try {
+        this->ship->move(roll(maybe));
     } catch (std::invalid_argument const& ex) {
         // everything is ok don't worry'
     }

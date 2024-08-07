@@ -1,6 +1,6 @@
 #include "space.hpp"
 #include "object.hpp"
-#include <iostream>
+
 void Space::buildMap(const std::vector<std::vector<char>>& raw_map)
 {
   this->raw_map = raw_map;
