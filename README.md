@@ -23,7 +23,7 @@ git submodule update --init --recursive
 
 ## Usage
 
-TODO
+After building, the executable file will be at build/bin directory. Run it and pass testcases to it.
 
 ## License
 

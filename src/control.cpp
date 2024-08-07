@@ -20,9 +20,11 @@ void Control::run()
     }
 
     this->space.buildMap(raw_map);
+    std::clog << 1;
     this->start_cell = this->space.getCell({this->x_ship, this->y_ship});
 
     try {
+        std::clog << 1;
         this->scenario_one();
         this->scenario_two();
         this->scenario_three();
@@ -360,23 +362,43 @@ void Control::seenHome()
         break;
 
         case UP_RIGHT:
-            this->ship->move(UP);
-            this->ship->move(RIGHT);
+            try {
+                this->ship->move(UP);
+                this->ship->move(RIGHT);
+            } catch (std::invalid_argument const& ex) {
+                this->ship->move(RIGHT);
+                this->ship->move(UP);
+            }
         break;
 
         case UP_LEFT:
-            this->ship->move(UP);
-            this->ship->move(LEFT);
+            try {
+                this->ship->move(UP);
+                this->ship->move(LEFT);
+            } catch (std::invalid_argument const& ex) {
+                this->ship->move(LEFT);
+                this->ship->move(UP);
+            }
         break;
 
         case DOWN_RIGHT:
-            this->ship->move(DOWN);
-            this->ship->move(RIGHT);
+            try {
+                this->ship->move(DOWN);
+                this->ship->move(RIGHT);
+            } catch (std::invalid_argument const& ex) {
+                this->ship->move(RIGHT);
+                this->ship->move(DOWN);
+            }
         break;
 
         case DOWN_LEFT:
-            this->ship->move(DOWN);
-            this->ship->move(LEFT);
+            try {
+                this->ship->move(DOWN);
+                this->ship->move(LEFT);
+            } catch (std::invalid_argument const& ex) {
+                this->ship->move(LEFT);
+                this->ship->move(DOWN);
+            }
         break;
 
         case UNKNOWN:

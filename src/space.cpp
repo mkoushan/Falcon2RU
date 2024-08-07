@@ -1,5 +1,6 @@
 #include "space.hpp"
 #include "object.hpp"
+#include <iostream>
 
 void Space::buildMap(const std::vector<std::vector<char>>& raw_map)
 {
@@ -384,30 +385,39 @@ void Space::connectSpaceObject(const Point& p)
     const auto& f = this->map.at(i).at(--j);
     const auto& g = this->map.at(--i).at(--j);
     const auto& h = this->map.at(--i).at(j);
+    if (a != nullptr && f != nullptr) {
+        a->setEnergyCost(12);
+        a->setTimeCost(9);
+        f->setEnergyCost(12);
+        f->setTimeCost(9);
+        a->setTarget(f);
+        f->setTarget(a);
+    }
 
-    a->setEnergyCost(12);
-    a->setTimeCost(9);
-    b->setEnergyCost(12);
-    b->setTimeCost(9);
-    c->setEnergyCost(12);
-    c->setTimeCost(9);
-    d->setEnergyCost(12);
-    d->setTimeCost(9);
-    e->setEnergyCost(12);
-    e->setTimeCost(9);
-    f->setEnergyCost(12);
-    f->setTimeCost(9);
-    g->setEnergyCost(12);
-    g->setTimeCost(9);
-    h->setEnergyCost(12);
-    h->setTimeCost(9);
+    if (b != nullptr && e != nullptr) {
+        b->setEnergyCost(12);
+        b->setTimeCost(9);
+        e->setEnergyCost(12);
+        e->setTimeCost(9);
+        b->setTarget(e);
+        e->setTarget(b);
+    }
 
-    a->setTarget(f);
-    f->setTarget(a);
-    b->setTarget(e);
-    e->setTarget(b);
-    c->setTarget(h);
-    h->setTarget(c);
-    d->setTarget(g);
-    g->setTarget(d);
+    if (c != nullptr && h != nullptr) {
+        c->setEnergyCost(12);
+        c->setTimeCost(9);
+        h->setEnergyCost(12);
+        h->setTimeCost(9);
+        c->setTarget(h);
+        h->setTarget(c);
+    }
+
+    if (d != nullptr && g != nullptr) {
+        d->setEnergyCost(12);
+        d->setTimeCost(9);
+        g->setEnergyCost(12);
+        g->setTimeCost(9);
+        d->setTarget(g);
+        g->setTarget(d);
+    }
 }
