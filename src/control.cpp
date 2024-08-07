@@ -134,7 +134,7 @@ void Control::suspirium3()
     static std::map<const Object*, bool> visited;
     visited[this->ship->getCell()] = true;
     this->checkHome();
-    if (this->ship->getCell()->show() == 1) {
+    if (this->ship->getCell()->show() == '1') {
         try {
             this->ship->ride();
             this -> suspirium4();
@@ -229,7 +229,7 @@ void Control::scenario_two()
 
     try {
         this->suspirium2();
-        this->suspirium();
+        this->suspirium3();
     } catch (std::domain_error const& ex) {
         this->ship->printLog();
         std::cerr << std::endl;
@@ -237,7 +237,6 @@ void Control::scenario_two()
     } catch (Reached& ex) {
         std::cout << ex.what() << std::endl;
     }
-    this->ship->printLog();
 }
 
 void Control::scenario_three()
