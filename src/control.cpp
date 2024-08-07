@@ -205,7 +205,7 @@ void Control::scenario_three()
                 switch(this->ship->getCell()->show()) {
                     case '0':
                         if (this->ship->getCell()->getEnergyCost() == 12) { // space object is close
-                            switch (roll({0, 0, 1})) {
+                            switch (roll({0, 0, 0, 1})) {
                                 case 0:
                                     this->ship->orbit();
                                     this->randomMove();
