@@ -237,6 +237,7 @@ void Control::scenario_two()
     } catch (Reached& ex) {
         std::cout << ex.what() << std::endl;
     }
+    this->ship->printLog();
 }
 
 void Control::scenario_three()
