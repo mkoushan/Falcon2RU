@@ -47,7 +47,7 @@ void Spaceship::orbit()
   this->time += 9;
 
   // log
-  std::string log_text = this->getTimeStr() + "\tOrbited " + "\t\tE:" + this->getEnergyStr();
+  std::string log_text = this->getTimeStr() + "\tOrbited " + "\tE:" + this->getEnergyStr();
   this->logs.push_back(log_text);
 
   this->processAround();
