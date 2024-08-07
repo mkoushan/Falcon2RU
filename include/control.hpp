@@ -17,7 +17,7 @@ class Control {
         void suspirium();
         void suspirium2();
         void suspirium3();
-        void suspirium4();
+        void suspirium4(std::map<const Object*, bool>&& visit = {});
 
         void randomMove();
         void scenario_two();

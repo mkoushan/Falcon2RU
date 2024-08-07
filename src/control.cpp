@@ -174,9 +174,12 @@ void Control::suspirium3()
     }
 }
 
-void Control::suspirium4()
+void Control::suspirium4(std::map<const Object*, bool>&& visit)
 {
     static std::map<const Object*, bool> visited;
+    visited.merge(visit);
+    visit.merge(visited);
+
     visited[this->ship->getCell()] = true;
     this->checkHome();
     if (! visited[this->ship->getCell()->getObject(RIGHT)])
